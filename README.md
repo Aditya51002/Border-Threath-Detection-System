@@ -1085,44 +1085,6 @@ Default login: admin / admin123 (change immediately)
 
 ---
 
-## 📞 Contact & Support
-
-### Team Information
-- **Project Lead:** [Your Name]
-- **Email:** [your.email@example.com]
-- **GitHub:** [https://github.com/yourusername/border-threat-detection](https://github.com/yourusername/border-threat-detection)
-- **Demo Video:** [YouTube link]
-- **LinkedIn:** [Your LinkedIn]
-
-### For Judges & Evaluators
-If you have questions about:
-- **Technical Implementation:** See [docs/TECHNICAL_DETAILS.md](docs/TECHNICAL_DETAILS.md)
-- **System Demo:** Live demo available at [demo.border-ai.com](http://demo.border-ai.com)
-- **Code Review:** Full source code on GitHub (link above)
-- **Additional Information:** Email us anytime
-
-### Acknowledgments
-- **Ultralytics** for YOLOv8 framework
-- **OpenCV** community for computer vision tools
-- **Defense Personnel** who provided domain insights
-- **Hackathon Organizers** for this opportunity
-
----
-
-## 📜 License & Usage
-
-### Open Source Commitment
-This project is open-source (MIT License) for:
-- ✅ Educational purposes
-- ✅ Research and development
-- ✅ Non-commercial deployment
-- ✅ Government use (India)
-
-### Commercial Licensing
-For commercial deployment, contact us for licensing terms.
-
----
-
 ## 🎯 Conclusion
 
 Our AI-Based Border Threat Detection System represents a **paradigm shift** in border surveillance—from passive monitoring to active, intelligent defense. By combining cutting-edge AI with practical deployment architecture, we deliver a solution that is:
@@ -1147,7 +1109,3 @@ This is not just a hackathon project—it's a **deployable national security sol
 ---
 
 **⭐ Star this repo if you believe in AI-powered defense!**
-
-[View Demo](http://demo-link.com) • [Documentation](docs/) • [Report Issue](https://github.com/issues)
-
-</div>
