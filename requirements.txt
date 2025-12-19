@@ -1,0 +1,25 @@
+# Border Threat Detection System - Dependencies
+
+# Core AI/ML
+ultralytics>=8.0.0          # YOLOv8
+opencv-python>=4.8.0        # Computer vision
+torch>=2.0.0                # PyTorch (deep learning)
+torchvision>=0.15.0         # Vision utilities
+numpy>=1.24.0               # Numerical computing
+pillow>=10.0.0              # Image processing
+
+# Web Framework
+flask>=3.0.0                # Web server
+flask-cors>=4.0.0           # CORS support
+flask-socketio>=5.3.0       # WebSocket support
+python-socketio>=5.9.0      # Socket.IO client
+
+# Database
+# SQLite is built-in to Python
+
+# Optional: Advanced features
+# twilio>=8.0.0             # SMS alerts (uncomment if needed)
+# python-dotenv>=1.0.0      # Environment variables
+
+# Utilities
+requests>=2.31.0            # HTTP requests

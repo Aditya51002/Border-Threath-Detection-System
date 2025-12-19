@@ -1,0 +1,137 @@
+/* Dashboard Styles */
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#video-container {
+    background-color: #000;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#video-stream {
+    display: none;
+}
+
+#no-video {
+    width: 100%;
+}
+
+/* Alert Styles */
+.alert-item {
+    border-left: 4px solid;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.alert-critical {
+    border-left-color: #dc3545;
+    background-color: #f8d7da;
+}
+
+.alert-high {
+    border-left-color: #ffc107;
+    background-color: #fff3cd;
+}
+
+.alert-medium {
+    border-left-color: #17a2b8;
+    background-color: #d1ecf1;
+}
+
+.alert-low {
+    border-left-color: #28a745;
+    background-color: #d4edda;
+}
+
+/* Detection Log */
+.detection-item {
+    padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 0.9rem;
+}
+
+.detection-item:last-child {
+    border-bottom: none;
+}
+
+.detection-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Badges */
+.badge {
+    font-weight: 500;
+}
+
+/* Map */
+#map {
+    background-color: #e5e3df;
+}
+
+/* Loading Animation */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
+}
+
+/* Stats Cards Animation */
+.card.bg-primary,
+.card.bg-danger,
+.card.bg-warning,
+.card.bg-success {
+    transition: all 0.3s ease;
+}
+
+.card.bg-primary:hover,
+.card.bg-danger:hover,
+.card.bg-warning:hover,
+.card.bg-success:hover {
+    opacity: 0.9;
+}
+
+/* Pulse Animation for Critical Alerts */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.alert-critical {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-body h3 {
+        font-size: 1.5rem;
+    }
+    
+    #video-container {
+        min-height: 300px;
+    }
+}
