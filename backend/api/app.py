@@ -41,6 +41,10 @@ threat_analyzer = ThreatAnalyzer()
 alert_system = AlertSystem()
 alert_filter = AlertFilter(cooldown_seconds=Config.ALERT_COOLDOWN_SECONDS)
 
+# AI Command Agent
+from api.llm_agent import StrategicAIAgent
+ai_agent = StrategicAIAgent()
+
 # Global state
 processing_active = False
 processing_thread = None
@@ -55,20 +59,17 @@ def init_detector():
             conf_threshold=Config.CONFIDENCE_THRESHOLD,
             device=Config.DEVICE
         )
-        print("[API] YOLO detector initialized")
         return True
     except Exception as e:
-        print(f"[API] Failed to initialize detector: {e}")
+        print(f"[API] Detector error: {e}")
         return False
 
 
 def process_video_stream():
-    """Background thread for video processing"""
+    """Background thread for real-time video processing"""
     global processing_active, video_processor
     
-    print("[API] Video processing started")
-    
-    frame_skip = 2  # Process every 2nd frame for better FPS
+    frame_skip = 2
     frame_count = 0
     
     while processing_active:
@@ -77,49 +78,35 @@ def process_video_stream():
             continue
         
         ret, frame = video_processor.read()
-        
         if not ret or frame is None:
             time.sleep(0.1)
             continue
         
         frame_count += 1
-        
-        # Skip frames for better performance
         if frame_count % frame_skip != 0:
             continue
         
         try:
-            # Detect objects
             detections, fps = detector.detect(frame)
             
             if detections:
-                # Analyze threats
                 analyzed = threat_analyzer.analyze(detections, zone_type=Config.DEFAULT_ZONE_TYPE)
                 
-                # Filter and send alerts
                 for det in analyzed:
                     if det.get('threat_level', 0) >= Config.MIN_ALERT_LEVEL:
                         if alert_filter.should_alert(det):
-                            # Save to database
                             db.save_detection(det, camera_id='default')
-                            
-                            # Send alert
                             alert_system.send_alert(det)
                             
-                            # Broadcast via WebSocket
                             socketio.emit('new_alert', {
                                 'detection': det,
                                 'timestamp': datetime.now().isoformat()
                             })
                 
-                # Draw detections on frame
                 annotated_frame = detector.draw_detections(frame, analyzed)
-                
-                # Convert frame to base64 for WebSocket transmission
                 _, buffer = cv2.imencode('.jpg', annotated_frame)
                 frame_data = base64.b64encode(buffer).decode('utf-8')
                 
-                # Broadcast frame via WebSocket
                 socketio.emit('video_frame', {
                     'frame': frame_data,
                     'detections': len(detections),
@@ -127,29 +114,51 @@ def process_video_stream():
                 })
         
         except Exception as e:
-            print(f"[API] Processing error: {e}")
+            print(f"[API] Stream error: {e}")
         
-        time.sleep(0.033)  # ~30 FPS
+        time.sleep(0.033)
 
 
 # === API ROUTES ===
 
 @app.route('/')
 def index():
-    """Serve dashboard"""
     return render_template('index.html')
 
 
 @app.route('/api/status')
 def get_status():
-    """Get system status"""
     return jsonify({
         'status': 'online',
         'version': Config.VERSION,
         'processing_active': processing_active,
         'detector_ready': detector is not None,
-        'video_source': 'active' if video_processor else 'none',
         'timestamp': datetime.now().isoformat()
+    })
+
+
+# STRATEGIC COMMAND ROUTES
+@app.route('/api/ai/analyze')
+def analyze_strategic_threats():
+    try:
+        recent_alerts = db.get_recent_alerts(limit=10)
+        recent_detections = db.get_recent_detections(limit=20)
+        analysis = ai_agent.analyze_threats(recent_alerts, recent_detections)
+        return jsonify({
+            'success': True,
+            'analysis': analysis
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+
+
+@app.route('/api/ai/chat', methods=['POST'])
+def ai_chat():
+    data = request.json
+    response = ai_agent.chat(data.get('query', ''))
+    return jsonify({
+        'success': True,
+        'response': response
     })
 
 
@@ -346,3 +355,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
